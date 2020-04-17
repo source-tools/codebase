@@ -9,6 +9,7 @@ import (
 
 var triggers = []string{"void", "def", "function", "func", "int", "var", "double", "float", "string", "String", "bool", "boolean"}
 var commentSyntaxes = []string{"#", "//", "/*"}
+var varSyntaxes = []string{"int", "var", "double", "float", "string", "String", "bool", "boolean"}
 
 func getFileLines(filepath string) []string {
 	currentfile, err := os.Open(filepath)
@@ -93,4 +94,31 @@ func startsWithComment(line string) bool {
 	}
 
 	return false
+}
+
+func createFile(path string) {
+	os.Create(path)
+}
+
+func containsVar(line string) bool {
+
+	var i int = 0
+	for i < len(varSyntaxes) {
+		if strings.Contains(line, varSyntaxes[i]) {
+			return true
+		}
+		i++
+	}
+
+	return false
+}
+
+func getVarValue(line string) string {
+
+	if !strings.Contains(line, "=") {
+		return ""
+	}
+
+	arr := strings.Split(line, "=")
+	return strings.TrimSpace(arr[1])
 }
