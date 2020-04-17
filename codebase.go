@@ -122,3 +122,41 @@ func getVarValue(line string) string {
 	arr := strings.Split(line, "=")
 	return strings.TrimSpace(arr[1])
 }
+
+func isFunction(line string) bool {
+
+	if strings.Contains(line, "(") {
+		if strings.Contains(line, ")") {
+			return true
+		}
+	}
+
+	return false
+}
+
+func getRawParameters(line string) string {
+
+	var parameters string = ""
+	var run bool = false
+	arr := strings.Split(line, "")
+	var i int = 0
+
+	for i < len(arr) {
+
+		if arr[i] == ")" {
+			run = false
+			return parameters
+		}
+
+		if run {
+			parameters = parameters + arr[i]
+		}
+
+		if arr[i] == "(" {
+			run = true
+		}
+		i++
+	}
+
+	return parameters
+}
